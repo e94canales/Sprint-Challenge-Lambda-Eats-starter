@@ -91,3 +91,11 @@ a:hover {
     margin-top: 160px
   }
 }
+.error {
+  position: absolute;
+  width: 100%;
+  background-color: rgb(243, 77, 77);
+  text-align: center;
+  color: aliceblue;
+  font-size: .8rem;
+}

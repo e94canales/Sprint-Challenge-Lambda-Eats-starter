@@ -21,7 +21,7 @@ const initialFormErrors = {
 const formSchema = yup.object().shape({
     name: yup
         .string()
-        .min(2, 'YOUR NAME MUST BE AT LEAST 3 CHARACTERS')
+        .min(3, 'YOUR NAME MUST BE AT LEAST 3 CHARACTERS')
         .required('NAME IS REQUIRED'),
     size: yup 
         .string()
