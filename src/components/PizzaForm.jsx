@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import * as yup from 'yup'
+import FormWrapper from '../components/FormWrapperStyle'
 
 const initialFormValues = {
     name: '',
@@ -36,6 +38,7 @@ const PizzaForm = props => {
     const [ submitDisabled, setSubmitDisabled ] = useState(true)
     const [ errorsActive, setErrorsActive ] = useState(false)
     const [ showError, setShowError ] = useState()
+    const [ addRed , setAddRed ] = useState('Add to Order')
 
 
     useEffect(() => {
@@ -54,6 +57,15 @@ const PizzaForm = props => {
         }
       
     }, [errorsActive])
+
+    useEffect(() => {
+        if (submitDisabled === false){
+            setAddRed(<Link to='/success'>Add to Order</Link>)
+        }
+        else  {
+            setAddRed('Add To Order')
+        }
+    }, [submitDisabled])
 
     const onInputChange = e => {
         const name = e.target.name
@@ -104,15 +116,16 @@ const PizzaForm = props => {
 
         setOrders([...orders, newOrder])
         setFormValues(initialFormValues)
+
     }
 
     return (
-        <div className='FormContainer'>
+        <FormWrapper >
             <div className='formWrapper'>
                 <h2>Build Your Own Pizza</h2>
-                <img src='../Assets/Pizza.jpg' alt='pizza'/>
+                <img src='https://images.squarespace-cdn.com/content/v1/54b2c825e4b0258f56ebac59/1421016969495-6UOE4ZWIOT2K2ZJBV3OX/ke17ZwdGBToddI8pDm48kKxwr4r2hz7vo_Ui83zm8ewUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dvEx37jqH1n5_a3icEfxwwT6gBYQBxGudIArf107yjrAW07ycm2Trb21kYhaLJjddA/pizza2.jpg?format=2500w' alt='pizza'/>
                 <h3>Build Your Own Pizza</h3>
-                <form>
+                <form className='name'>
                     <input 
                     type='text' 
                     name='name'
@@ -123,7 +136,7 @@ const PizzaForm = props => {
                     </input>
                 </form>
                 <h3>Choice of Size</h3>
-                <label><select 
+                <label className='select'><select 
                     name='size' 
                     value={formValues.size}
                     onChange={onInputChange}
@@ -135,7 +148,7 @@ const PizzaForm = props => {
                 </select></label>
                 <h3>Add Toppings</h3>
                 <form>
-                    <div>
+                    <div className='check'>
                         <label><input 
                         type='checkbox'
                         name='pepperoni'
@@ -152,7 +165,7 @@ const PizzaForm = props => {
                         </input>Sausage</label>
 
                     </div>
-                    <div>
+                    <div className='check'>
                         <label><input 
                         type='checkbox'
                         name='pineapple'
@@ -180,23 +193,25 @@ const PizzaForm = props => {
 
                     </input>
                 </form>
-                <button onClick={onSubmit} disabled={submitDisabled}>Add to Order</button>
-            </div>
-            {showError}
+                <button onClick={onSubmit} disabled={submitDisabled}>{addRed}</button>
 
-            {
+                {
                 orders.map( ord => {
                     return (
-                        <div key={ord.name}>
-                            <p>{ord.name}</p>
-                            <p>{ord.size}</p>
-                            <p>{ord.toppings}</p>
-                            <p>{ord.instructions}</p>
+                        <div className='orderUp' key={ord.name}>
+                            <p>Name: {ord.name}</p>
+                            <p>Size: {ord.size}</p>
+                            <p>Toppings: {ord.toppings}</p>
+                            <p>Instructions: {ord.instructions}</p>
                         </div>
                     )
                 })
             }
-        </div>
+            </div>
+            {showError}
+
+            
+        </FormWrapper>
     )
 }
 
